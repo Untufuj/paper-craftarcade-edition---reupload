@@ -1,8 +1,3 @@
-controller.combos.attachCombo("U+RL+D", function () {
-    if (!(story.isMenuOpen())) {
-        locate_tiles()
-    }
-})
 function locate_tiles () {
     locateX = 0
     locateY = 0
@@ -39,17 +34,6 @@ function locate_tiles () {
     game.setGameOverMessage(true, "World Saved!")
     game.gameOver(true)
 }
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(story.isMenuOpen())) {
-        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
-        if (item == 6) {
-            item = 0
-        } else {
-            item += 1
-        }
-        info.setScore(item)
-    }
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (!(story.isMenuOpen())) {
         music.play(music.melodyPlayable(music.knock), music.PlaybackMode.UntilDone)
@@ -70,6 +54,11 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         } else {
         	
         }
+    }
+})
+controller.combos.attachCombo("U+RL+D", function () {
+    if (!(story.isMenuOpen())) {
+        locate_tiles()
     }
 })
 function setup () {
@@ -108,6 +97,17 @@ function setup () {
     controller.moveSprite(my_sprite, 100, 100)
     scene.cameraFollowSprite(my_sprite)
 }
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (!(story.isMenuOpen())) {
+        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
+        if (item == 6) {
+            item = 0
+        } else {
+            item += 1
+        }
+        info.setScore(item)
+    }
+})
 function load_world () {
     tiles.setCurrentTilemap(tilemap`level3`)
     load_item = 0
