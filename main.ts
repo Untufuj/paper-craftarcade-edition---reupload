@@ -34,7 +34,7 @@ function locate_tiles () {
     game.setGameOverMessage(true, "World Saved!")
     game.gameOver(true)
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (!(story.isMenuOpen())) {
         music.play(music.melodyPlayable(music.knock), music.PlaybackMode.UntilDone)
         if (item == 0) {
@@ -54,6 +54,17 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         } else {
         	
         }
+    }
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (!(story.isMenuOpen())) {
+        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
+        if (item == 6) {
+            item = 0
+        } else {
+            item += 1
+        }
+        info.setScore(item)
     }
 })
 controller.combos.attachCombo("U+RL+D", function () {
@@ -97,17 +108,6 @@ function setup () {
     controller.moveSprite(my_sprite, 100, 100)
     scene.cameraFollowSprite(my_sprite)
 }
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(story.isMenuOpen())) {
-        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
-        if (item == 6) {
-            item = 0
-        } else {
-            item += 1
-        }
-        info.setScore(item)
-    }
-})
 function load_world () {
     tiles.setCurrentTilemap(tilemap`level3`)
     load_item = 0
@@ -153,7 +153,7 @@ music.play(music.createSong(hex`00780004080200`), music.PlaybackMode.InBackgroun
 game.showLongText("Paper craft 1.0.1 Arcade Edition", DialogLayout.Top)
 story.showPlayerChoices("New game", "Continue")
 if (story.checkLastAnswer("New game")) {
-    game.showLongText("Arrows to move, A to place, B to change, up+right then left+down to save. Materials(shown as the score):0=dirt  1=grass 2=water 3=planks 4=wood 5=leaves 6=air", DialogLayout.Full)
+    game.showLongText("Arrows to move, B to place, A to change, up+right then left+down to save. Materials(shown as the score):0=dirt  1=grass 2=water 3=planks 4=wood 5=leaves 6=air", DialogLayout.Full)
     blockSettings.clear()
 } else {
 	

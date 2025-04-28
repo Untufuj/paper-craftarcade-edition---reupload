@@ -2,7 +2,7 @@
 ## How to play
 When in game, press A to place a tile and B to change tiles. Move the cursor with the arrows and press up+right then down+left to save
 
-
+## Page
 > Open this page at [https://untufuj.github.io/paper-craftarcade-edition---reupload/](https://untufuj.github.io/paper-craftarcade-edition---reupload/)
 
 ## Use as Extension
