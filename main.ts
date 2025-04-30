@@ -1,3 +1,8 @@
+controller.combos.attachCombo("U+RL+D", function () {
+    if (!(story.isMenuOpen())) {
+        locate_tiles()
+    }
+})
 function locate_tiles () {
     locateX = 0
     locateY = 0
@@ -18,6 +23,8 @@ function locate_tiles () {
             list22.push(5)
         } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
             list22.push(6)
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
+            list22.push(7)
         } else {
         	
         }
@@ -35,7 +42,7 @@ function locate_tiles () {
     game.gameOver(true)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(story.isMenuOpen())) {
+    if (In_game == 1) {
         music.play(music.melodyPlayable(music.knock), music.PlaybackMode.UntilDone)
         if (item == 0) {
             tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`0`)
@@ -51,25 +58,22 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile2`)
         } else if (item == 6) {
             tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`transparency16`)
+        } else if (item == 7) {
+            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile3`)
         } else {
         	
         }
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(story.isMenuOpen())) {
+    if (In_game == 1) {
         music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
-        if (item == 6) {
+        if (item == 7) {
             item = 0
         } else {
             item += 1
         }
-        info.setScore(item)
-    }
-})
-controller.combos.attachCombo("U+RL+D", function () {
-    if (!(story.isMenuOpen())) {
-        locate_tiles()
+        my_sprite.sayText(text_list[item], 5000, false)
     }
 })
 function setup () {
@@ -85,7 +89,6 @@ function setup () {
             tiles.setCurrentTilemap(tilemap`level`)
         }
     }
-    scene.setBackgroundColor(9)
     my_sprite = sprites.create(img`
         . . . . . f f f f f f f . . . . . 
         . . . f f 1 1 1 1 1 1 1 f f . . . 
@@ -127,6 +130,8 @@ function load_world () {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)
         } else if (list2[load_item] == 6) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
+        } else if (list2[load_item] == 7) {
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)
         } else {
         	
         }
@@ -144,13 +149,28 @@ let load_item = 0
 let my_sprite: Sprite = null
 let item = 0
 let list22: number[] = []
+let In_game = 0
 let locateX = 0
 let locateY = 0
+let text_list: string[] = []
+text_list = [
+"Dirt",
+"Grass",
+"Water",
+"Planks",
+"Trunk",
+"Leaves",
+"Air",
+"Stone"
+]
 locateY = 0
 locateX = 0
+In_game = 0
 list22 = []
-music.play(music.createSong(hex`00780004080200`), music.PlaybackMode.InBackground)
-game.showLongText("Paper craft 1.0.1 Arcade Edition", DialogLayout.Top)
+music.play(music.createSong(hex`
+            00780004080200
+            `), music.PlaybackMode.InBackground)
+game.showLongText("Paper craft As25-1b Arcade Edition", DialogLayout.Top)
 story.showPlayerChoices("New game", "Continue")
 if (story.checkLastAnswer("New game")) {
     game.showLongText("Arrows to move, B to place, A to change, up+right then left+down to save. Materials(shown as the score):0=dirt  1=grass 2=water 3=planks 4=wood 5=leaves 6=air", DialogLayout.Full)
@@ -158,6 +178,12 @@ if (story.checkLastAnswer("New game")) {
 } else {
 	
 }
+story.showPlayerChoices("Day", "Night")
+if (story.checkLastAnswer("Day")) {
+    scene.setBackgroundColor(9)
+} else {
+    scene.setBackgroundColor(8)
+}
 setup()
-info.setScore(item)
 controller.combos.setTriggerType(TriggerType.Continuous)
+In_game = 1
