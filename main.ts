@@ -170,10 +170,10 @@ list22 = []
 music.play(music.createSong(hex`
             00780004080200
             `), music.PlaybackMode.InBackground)
-game.showLongText("Paper craft As25-1b Arcade Edition", DialogLayout.Top)
+game.showLongText("Paper craft 0.1 Arcade Edition", DialogLayout.Top)
 story.showPlayerChoices("New game", "Continue")
 if (story.checkLastAnswer("New game")) {
-    game.showLongText("Arrows to move, B to place, A to change, up+right then left+down to save. Materials(shown as the score):0=dirt  1=grass 2=water 3=planks 4=wood 5=leaves 6=air", DialogLayout.Full)
+    game.showLongText("Arrows to move, B to place, A to change, up+right then left+down to save.", DialogLayout.Full)
     blockSettings.clear()
 } else {
 	
