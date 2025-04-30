@@ -42,7 +42,7 @@ function locate_tiles () {
     game.gameOver(true)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(story.isMenuOpen())) {
+    if (In_game == 1) {
         music.play(music.melodyPlayable(music.knock), music.PlaybackMode.UntilDone)
         if (item == 0) {
             tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`0`)
@@ -66,7 +66,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (!(story.isMenuOpen())) {
+    if (In_game == 1) {
         music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
         if (item == 7) {
             item = 0
@@ -89,7 +89,6 @@ function setup () {
             tiles.setCurrentTilemap(tilemap`level`)
         }
     }
-    scene.setBackgroundColor(9)
     my_sprite = sprites.create(img`
         . . . . . f f f f f f f . . . . . 
         . . . f f 1 1 1 1 1 1 1 f f . . . 
@@ -150,6 +149,7 @@ let load_item = 0
 let my_sprite: Sprite = null
 let item = 0
 let list22: number[] = []
+let In_game = 0
 let locateX = 0
 let locateY = 0
 let text_list: string[] = []
@@ -165,11 +165,12 @@ text_list = [
 ]
 locateY = 0
 locateX = 0
+In_game = 0
 list22 = []
 music.play(music.createSong(hex`
             00780004080200
             `), music.PlaybackMode.InBackground)
-game.showLongText("Paper craft As4-30a Arcade Edition", DialogLayout.Top)
+game.showLongText("Paper craft As4-30b Arcade Edition", DialogLayout.Top)
 story.showPlayerChoices("New game", "Continue")
 if (story.checkLastAnswer("New game")) {
     game.showLongText("Arrows to move, B to place, A to change, up+right then left+down to save. Materials(shown as the score):0=dirt  1=grass 2=water 3=planks 4=wood 5=leaves 6=air", DialogLayout.Full)
@@ -177,5 +178,12 @@ if (story.checkLastAnswer("New game")) {
 } else {
 	
 }
+story.showPlayerChoices("Day", "Night")
+if (story.checkLastAnswer("Day")) {
+    scene.setBackgroundColor(9)
+} else {
+    scene.setBackgroundColor(8)
+}
 setup()
 controller.combos.setTriggerType(TriggerType.Continuous)
+In_game = 1
