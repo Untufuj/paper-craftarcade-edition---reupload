@@ -37,6 +37,7 @@ function locate_tiles () {
     }
     console.log(list22)
     blockSettings.writeNumberArray("world", list22)
+    game.showLongText("World saved", DialogLayout.Center)
     game.reset()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -580,4 +581,43 @@ scene.setBackgroundImage(img`
     2222222222222222111222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     `)
 pause(1000)
+game.setDialogCursor(img`
+    . . c c c c c c c . . 
+    . c f f f f f f f c . 
+    c f f f 2 2 2 f f f c 
+    c f f 2 2 f 2 2 f f c 
+    c f f 2 2 f 2 2 f f c 
+    c f f 2 2 2 2 2 f f c 
+    c f f 2 2 f 2 2 f f c 
+    c f f f f f f f f f c 
+    c f f f f f f f f f c 
+    . c f f f f f f f c . 
+    . . c c c c c c c . . 
+    `)
+game.setDialogFrame(img`
+    ..11111111111111111111..
+    .cccccccccccccccccccccc.
+    cccccccccccccccccccccccc
+    c1111111111111111111111c
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    d1111111111111111111111d
+    edddddddddddddddddddddde
+    .ebbbbbbbbbbbbbbbbbbbbe.
+    ..eeeeeeeeeeeeeeeeeeee..
+    `)
 backToMenu()
