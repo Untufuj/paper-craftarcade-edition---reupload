@@ -152,7 +152,9 @@ let yellow_texts = [
 "Minecraft but not Minecraft",
 "Anyone plays this?",
 "Completely free",
-"Das ist nicht in Deutsch"
+"Das ist nicht in Deutsch",
+"Who reads this?",
+"2D"
 ]
 locateY = 0
 locateX = 0
@@ -163,7 +165,8 @@ music.play(music.createSong(hex`
             `), music.PlaybackMode.InBackground)
 let textSprite = textsprite.create(yellow_texts[randint(0, yellow_texts.length - 1)], 0, 5)
 textSprite.setPosition(80, 100)
-textSprite.setMaxFontHeight(7)
+textSprite.left = 0
+textSprite.setMaxFontHeight(6)
 textSprite.setOutline(1, 6)
 scene.setBackgroundImage(img`
     eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
