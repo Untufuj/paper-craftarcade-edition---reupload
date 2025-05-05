@@ -4,9 +4,9 @@ controller.combos.attachCombo("U+RL+D", function () {
     }
 })
 function locate_tiles () {
+    scene.centerCameraAt(0, 0)
     locateX = 0
     locateY = 0
-    game.splash("Saving world...", "Do not turn the power off or modify the world")
     list22.pop()
     for (let index = 0; index < 18 * 12; index++) {
         if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
@@ -37,8 +37,7 @@ function locate_tiles () {
     }
     console.log(list22)
     blockSettings.writeNumberArray("world", list22)
-    sprites.destroy(my_sprite)
-    backToMenu()
+    game.reset()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (In_game == 1) {
@@ -65,7 +64,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (In_game == 1) {
-        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
+        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
         if (item == 7) {
             item = 0
         } else {
@@ -448,9 +447,9 @@ let load_item = 0
 let textSprite: TextSprite = null
 let yellow_texts: string[] = []
 let text_list: string[] = []
+let my_sprite: Sprite = null
 let item = 0
 let In_game = 0
-let my_sprite: Sprite = null
 let list22: number[] = []
 let locateY = 0
 let locateX = 0
