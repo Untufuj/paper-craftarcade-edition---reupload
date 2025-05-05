@@ -61,13 +61,15 @@ function setup () {
     if (blockSettings.exists("world")) {
         load_world()
     } else {
-        story.showPlayerChoices("Template 1", "Template 2")
+        story.showPlayerChoices("Template 1", "Template 2", "Blank")
         if (story.checkLastAnswer("Template 2")) {
             scene.setTileMapLevel(tilemap`
                 level1
                 `)
-        } else {
+        } else if (story.checkLastAnswer("Template 1")) {
             tiles.setCurrentTilemap(tilemap`level`)
+        } else {
+            tiles.setCurrentTilemap(tilemap`level3`)
         }
     }
     my_sprite = sprites.create(img`
