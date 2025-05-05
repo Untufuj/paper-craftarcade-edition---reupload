@@ -43,26 +43,7 @@ function locate_tiles () {
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (In_game == 1) {
-        music.play(music.melodyPlayable(music.knock), music.PlaybackMode.UntilDone)
-        if (item == 0) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`0`)
-        } else if (item == 1) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`1`)
-        } else if (item == 2) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile`)
-        } else if (item == 3) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile0`)
-        } else if (item == 4) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile1`)
-        } else if (item == 5) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile2`)
-        } else if (item == 6) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`transparency16`)
-        } else if (item == 7) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile3`)
-        } else {
-        	
-        }
+    	
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -163,7 +144,14 @@ text_list = [
 "Air",
 "Stone"
 ]
-let yellow_texts = ["Arcade!", "Simple, isn't it?", "Minecraft but not Minecraft"]
+let yellow_texts = [
+"Arcade!",
+"Simple, isn't it?",
+"Minecraft but not Minecraft",
+"Anyone plays this?",
+"Completely free",
+"Das ist nicht in Deutsch"
+]
 locateY = 0
 locateX = 0
 In_game = 0
@@ -171,6 +159,10 @@ list22 = []
 music.play(music.createSong(hex`
             00780004080200
             `), music.PlaybackMode.InBackground)
+let textSprite = textsprite.create(yellow_texts[randint(0, yellow_texts.length - 1)], 0, 5)
+textSprite.setPosition(80, 100)
+textSprite.setMaxFontHeight(7)
+textSprite.setOutline(1, 6)
 scene.setBackgroundImage(img`
     eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
     eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
@@ -306,6 +298,7 @@ if (story.checkLastAnswer("Day")) {
 } else {
     scene.setBackgroundColor(8)
 }
+sprites.destroy(textSprite)
 setup()
 controller.combos.setTriggerType(TriggerType.Continuous)
 In_game = 1
