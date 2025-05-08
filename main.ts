@@ -3,6 +3,13 @@ controller.combos.attachCombo("U+RL+D", function () {
         locate_tiles()
     }
 })
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (In_game == 1 && !(controller.B.isPressed())) {
+        if (my_sprite.isHittingTile(CollisionDirection.Bottom) || tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`myTile`)) {
+            my_sprite.vy = -175
+        }
+    }
+})
 function locate_tiles () {
     scene.centerCameraAt(0, 0)
     locateX = 0
@@ -23,7 +30,7 @@ function locate_tiles () {
             list22.push(5)
         } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
             list22.push(6)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
             list22.push(7)
         } else {
         	
@@ -40,29 +47,6 @@ function locate_tiles () {
     game.showLongText("World saved", DialogLayout.Center)
     game.reset()
 }
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (In_game == 1) {
-        if (item == 0) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`0`)
-        } else if (item == 1) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`1`)
-        } else if (item == 2) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile`)
-        } else if (item == 3) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile0`)
-        } else if (item == 4) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile1`)
-        } else if (item == 5) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile2`)
-        } else if (item == 6) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`transparency16`)
-        } else if (item == 7) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`transparency16`)
-        } else {
-        	
-        }
-    }
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (In_game == 1) {
         music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
@@ -75,7 +59,65 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     }
 })
 function TileHitboxSetup () {
-	
+    locateX = 0
+    locateY = 0
+    if (canHoverBlocks == 1) {
+        for (let index = 0; index < 40 * 30; index++) {
+            if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile0`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile1`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)) {
+                tiles.setWallAt(tiles.getTileLocation(0, 0), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else {
+            	
+            }
+            if (locateX == 39) {
+                locateX = 0
+                locateY += 1
+            } else {
+                locateX += 1
+            }
+        }
+    } else {
+        for (let index = 0; index < 40 * 30; index++) {
+            if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile0`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile1`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)) {
+                tiles.setWallAt(tiles.getTileLocation(0, 0), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
+            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
+                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
+            } else {
+            	
+            }
+            if (locateX == 39) {
+                locateX = 0
+                locateY += 1
+            } else {
+                locateX += 1
+            }
+        }
+    }
 }
 function setup () {
     if (blockSettings.exists("world")) {
@@ -92,27 +134,28 @@ function setup () {
             tiles.setCurrentTilemap(tilemap`level3`)
         }
     }
+    TileHitboxSetup()
     my_sprite = sprites.create(img`
-        . . . . . f f f f f f f . . . . . 
-        . . . f f 1 1 1 1 1 1 1 f f . . . 
-        . . f 1 1 f f f 1 f f f 1 1 f . . 
-        . f 1 f f . . f 1 f . . f f 1 f . 
-        . f 1 f . . . f 1 f . . . f 1 f . 
-        f 1 f . . . . f 1 f . . . . f 1 f 
-        f 1 f . . . . f 1 f . . . . f 1 f 
-        f 1 f f f f f f 1 f f f f f f 1 f 
-        f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f 
-        f 1 f f f f f f 1 f f f f f f 1 f 
-        f 1 f . . . . f 1 f . . . . f 1 f 
-        f 1 f . . . . f 1 f . . . . f 1 f 
-        . f 1 f . . . f 1 f . . . f 1 f . 
-        . f 1 f f . . f 1 f . . f f 1 f . 
-        . . f 1 1 f f f 1 f f f 1 1 f . . 
-        . . . f f 1 1 1 1 1 1 1 f f . . . 
-        . . . . . f f f f f f f . . . . . 
+        . . . . 7 7 7 . . . . 
+        . . . 7 7 7 7 7 . . . 
+        . . . . f d f . . . . 
+        . . . . d d d . . . . 
+        . . 9 9 9 9 9 9 9 . . 
+        . . 9 9 9 9 9 9 9 . . 
+        . . d 9 9 9 9 9 d . . 
+        . . d 9 9 9 9 9 d . . 
+        . . d 9 9 9 9 9 d . . 
+        . . . 9 9 9 9 9 . . . 
+        . . . 8 8 8 8 8 . . . 
+        . . . 8 8 8 8 8 . . . 
+        . . . 8 8 . 8 8 . . . 
+        . . . 8 8 . 8 8 . . . 
+        . . . 8 8 . 8 8 . . . 
+        . . e e e . e e e . . 
         `, SpriteKind.Player)
-    controller.moveSprite(my_sprite, 100, 100)
     scene.cameraFollowSprite(my_sprite)
+    controller.moveSprite(my_sprite, 100, 0)
+    my_sprite.ay = 400
 }
 function backToMenu () {
     color.startFadeFromCurrent(color.Black, 500)
@@ -136,7 +179,11 @@ function backToMenu () {
     "Completely free",
     "Das ist nicht in Deutsch",
     "Who reads this?",
-    "2D"
+    "2D",
+    "The player is YOU",
+    "New gameplay",
+    "Build, jumped, swum",
+    "1.0!"
     ]
     locateY = 0
     locateX = 0
@@ -432,7 +479,7 @@ function load_world () {
         } else if (list2[load_item] == 6) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
         } else if (list2[load_item] == 7) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)
         } else {
         	
         }
@@ -445,17 +492,19 @@ function load_world () {
         }
     }
 }
+let cursor: Sprite = null
 let list2: number[] = []
 let load_item = 0
 let textSprite: TextSprite = null
 let yellow_texts: string[] = []
+let canHoverBlocks = 0
 let text_list: string[] = []
-let my_sprite: Sprite = null
 let item = 0
-let In_game = 0
 let list22: number[] = []
 let locateY = 0
 let locateX = 0
+let my_sprite: Sprite = null
+let In_game = 0
 color.setPalette(
 color.Black
 )
@@ -623,3 +672,59 @@ game.setDialogFrame(img`
     ..eeeeeeeeeeeeeeeeeeee..
     `)
 backToMenu()
+forever(function () {
+    if (controller.B.isPressed()) {
+        canHoverBlocks = 1
+        my_sprite.ay = 0
+        my_sprite.vy = 0
+        TileHitboxSetup()
+        cursor = sprites.create(img`
+            . . . . . . f f f f . . . . . . 
+            . . . . . f f 1 1 f f . . . . . 
+            . . . . f 1 f 1 1 f 1 f . . . . 
+            . . . f 1 . f 1 1 f . 1 f . . . 
+            . . f 1 . . f 1 1 f . . 1 f . . 
+            . f 1 . . . f 1 1 f . . . 1 f . 
+            f f f f f f f 1 1 f f f f f f f 
+            f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f 
+            f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f 
+            f f f f f f f 1 1 f f f f f f f 
+            . f 1 . . . f 1 1 f . . . 1 f . 
+            . . f 1 . . f 1 1 f . . 1 f . . 
+            . . . f 1 . f 1 1 f . 1 f . . . 
+            . . . . f 1 f 1 1 f 1 f . . . . 
+            . . . . . f f 1 1 f f . . . . . 
+            . . . . . . f f f f . . . . . . 
+            `, SpriteKind.Player)
+        cursor.setPosition(my_sprite.x, my_sprite.y)
+        controller.moveSprite(cursor, 100, 100)
+        controller.moveSprite(my_sprite, 0, 0)
+        pauseUntil(() => !(controller.B.isPressed()))
+        if (In_game == 1) {
+            if (item == 0) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`0`)
+            } else if (item == 1) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`1`)
+            } else if (item == 2) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile`)
+            } else if (item == 3) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile0`)
+            } else if (item == 4) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile1`)
+            } else if (item == 5) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile2`)
+            } else if (item == 6) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`transparency16`)
+            } else if (item == 7) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile3`)
+            } else {
+            	
+            }
+        }
+        sprites.destroy(cursor)
+        canHoverBlocks = 0
+        TileHitboxSetup()
+        my_sprite.ay = 400
+        controller.moveSprite(my_sprite, 100, 0)
+    }
+})
