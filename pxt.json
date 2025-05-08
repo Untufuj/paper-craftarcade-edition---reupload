@@ -1,6 +1,6 @@
 {
     "name": "Paper Craft(Arcade edition) - Copy",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
     "dependencies": {
         "device": "*",
