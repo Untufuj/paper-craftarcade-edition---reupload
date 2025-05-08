@@ -23,7 +23,7 @@ function locate_tiles () {
             list22.push(5)
         } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
             list22.push(6)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
             list22.push(7)
         } else {
         	
@@ -57,7 +57,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         } else if (item == 6) {
             tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`transparency16`)
         } else if (item == 7) {
-            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`myTile3`)
+            tiles.setTileAt(my_sprite.tilemapLocation(), assets.tile`transparency16`)
         } else {
         	
         }
@@ -74,6 +74,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         my_sprite.sayText(text_list[item], 5000, false)
     }
 })
+function TileHitboxSetup () {
+	
+}
 function setup () {
     if (blockSettings.exists("world")) {
         load_world()
@@ -430,7 +433,7 @@ function load_world () {
         } else if (list2[load_item] == 6) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
         } else if (list2[load_item] == 7) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
         } else {
         	
         }
