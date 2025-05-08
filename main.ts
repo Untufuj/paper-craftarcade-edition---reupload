@@ -8,7 +8,7 @@ function locate_tiles () {
     locateX = 0
     locateY = 0
     list22.pop()
-    for (let index = 0; index < 18 * 12; index++) {
+    for (let index = 0; index < 40 * 30; index++) {
         if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
             list22.push(0)
         } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
@@ -28,7 +28,7 @@ function locate_tiles () {
         } else {
         	
         }
-        if (locateX == 17) {
+        if (locateX == 39) {
             locateX = 0
             locateY += 1
         } else {
@@ -143,8 +143,8 @@ function backToMenu () {
     In_game = 0
     list22 = []
     music.play(music.createSong(hex`
-                00780004080200
-                `), music.PlaybackMode.InBackground)
+                        00780004080200
+                        `), music.PlaybackMode.InBackground)
     textSprite = textsprite.create(yellow_texts[randint(0, yellow_texts.length - 1)], 0, 5)
     textSprite.setPosition(80, 100)
     textSprite.left = 0
@@ -272,7 +272,6 @@ function backToMenu () {
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         `)
-    pause(1000)
     story.showPlayerChoices("New game", "Continue")
     if (story.checkLastAnswer("New game")) {
         game.showLongText("Arrows to move, B to place, A to change, up+right then left+down to save.", DialogLayout.Full)
@@ -417,7 +416,7 @@ function load_world () {
     tiles.setCurrentTilemap(tilemap`level3`)
     load_item = 0
     list2 = blockSettings.readNumberArray("world")
-    for (let index = 0; index < 18 * 12; index++) {
+    for (let index = 0; index < 40 * 30; index++) {
         if (list2[load_item] == 0) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`0`)
         } else if (list2[load_item] == 1) {
@@ -438,7 +437,7 @@ function load_world () {
         	
         }
         load_item += 1
-        if (locateX == 17) {
+        if (locateX == 39) {
             locateX = 0
             locateY += 1
         } else {
