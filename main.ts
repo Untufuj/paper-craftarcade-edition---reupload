@@ -321,7 +321,7 @@ function backToMenu () {
         `)
     story.showPlayerChoices("New game", "Continue")
     if (story.checkLastAnswer("New game")) {
-        game.showLongText("Arrows to move, B to place, A to change, up+right then left+down to save.", DialogLayout.Full)
+        game.showLongText("Arrows to move cursor and player, up to jump(player), hold B to move cursor, release to place, A to change, up+right then left+down to save.", DialogLayout.Full)
         blockSettings.clear()
     } else {
     	
