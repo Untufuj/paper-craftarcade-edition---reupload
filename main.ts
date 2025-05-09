@@ -4,7 +4,6 @@ controller.combos.attachCombo("U+RL+D", function () {
     }
 })
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    my_sprite.setFlag(SpriteFlag.ShowPhysics, true)
     if (In_game == 1 && !(controller.B.isPressed())) {
         if (my_sprite.isHittingTile(CollisionDirection.Bottom) || tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`myTile`)) {
             music.play(music.createSoundEffect(
@@ -427,20 +426,24 @@ function load_world () {
     for (let index = 0; index < 100 * 60; index++) {
         if (list2[load_item] == 0) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`0`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 1) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`1`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 2) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile`)
         } else if (list2[load_item] == 3) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile0`)
         } else if (list2[load_item] == 4) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile1`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 5) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)
         } else if (list2[load_item] == 6) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
         } else if (list2[load_item] == 7) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else {
         	
         }
@@ -464,8 +467,8 @@ let item = 0
 let list22: number[] = []
 let locateY = 0
 let locateX = 0
-let In_game = 0
 let my_sprite: Sprite = null
+let In_game = 0
 color.setPalette(
 color.Black
 )
@@ -664,20 +667,24 @@ forever(function () {
         if (In_game == 1) {
             if (item == 0) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`0`)
+                tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 1) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`1`)
+                tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 2) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile`)
             } else if (item == 3) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile0`)
             } else if (item == 4) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile1`)
+                tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 5) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile2`)
             } else if (item == 6) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`transparency16`)
             } else if (item == 7) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile3`)
+                tiles.setWallAt(cursor.tilemapLocation(), true)
             } else {
             	
             }
@@ -686,4 +693,5 @@ forever(function () {
         canHoverBlocks = 0
         controller.moveSprite(my_sprite, 100, 0)
     }
+    my_sprite.setFlag(SpriteFlag.GhostThroughWalls, false)
 })
