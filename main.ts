@@ -644,9 +644,9 @@ music.play(music.createSong(hex`003c000408020301001c000f05001202c102c20100040500
 forever(function () {
     if (controller.B.isPressed()) {
         music.play(music.melodyPlayable(music.jumpDown), music.PlaybackMode.InBackground)
+        canHoverBlocks = 1
         my_sprite.ay = 0
         my_sprite.vy = 0
-        canHoverBlocks = 1
         cursor = sprites.create(img`
             . . . . . . f f f f . . . . . . 
             . . . . . f f 1 1 f f . . . . . 
