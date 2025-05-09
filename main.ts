@@ -4,8 +4,19 @@ controller.combos.attachCombo("U+RL+D", function () {
     }
 })
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    my_sprite.setFlag(SpriteFlag.ShowPhysics, true)
     if (In_game == 1 && !(controller.B.isPressed())) {
         if (my_sprite.isHittingTile(CollisionDirection.Bottom) || tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`myTile`)) {
+            music.play(music.createSoundEffect(
+            WaveShape.Sine,
+            400,
+            600,
+            255,
+            0,
+            100,
+            SoundExpressionEffect.None,
+            InterpolationCurve.Linear
+            ), music.PlaybackMode.UntilDone)
             my_sprite.vy = -175
         }
     }
@@ -15,7 +26,7 @@ function locate_tiles () {
     locateX = 0
     locateY = 0
     list22.pop()
-    for (let index = 0; index < 40 * 30; index++) {
+    for (let index = 0; index < 100 * 60; index++) {
         if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
             list22.push(0)
         } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
@@ -35,7 +46,7 @@ function locate_tiles () {
         } else {
         	
         }
-        if (locateX == 39) {
+        if (locateX == 99) {
             locateX = 0
             locateY += 1
         } else {
@@ -58,67 +69,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         my_sprite.sayText(text_list[item], 5000, false)
     }
 })
-function TileHitboxSetup () {
-    locateX = 0
-    locateY = 0
-    if (canHoverBlocks == 1) {
-        for (let index = 0; index < 40 * 30; index++) {
-            if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile0`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile1`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)) {
-                tiles.setWallAt(tiles.getTileLocation(0, 0), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else {
-            	
-            }
-            if (locateX == 39) {
-                locateX = 0
-                locateY += 1
-            } else {
-                locateX += 1
-            }
-        }
-    } else {
-        for (let index = 0; index < 40 * 30; index++) {
-            if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile0`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile1`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)) {
-                tiles.setWallAt(tiles.getTileLocation(0, 0), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
-            } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
-                tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
-            } else {
-            	
-            }
-            if (locateX == 39) {
-                locateX = 0
-                locateY += 1
-            } else {
-                locateX += 1
-            }
-        }
-    }
-}
 function setup () {
     if (blockSettings.exists("world")) {
         load_world()
@@ -134,7 +84,6 @@ function setup () {
             tiles.setCurrentTilemap(tilemap`level3`)
         }
     }
-    TileHitboxSetup()
     my_sprite = sprites.create(img`
         . . . . 7 7 7 . . . . 
         . . . 7 7 7 7 7 . . . 
@@ -183,7 +132,9 @@ function backToMenu () {
     "The player is YOU",
     "New gameplay",
     "Build, jumped, swum",
-    "1.0!"
+    "1.1!",
+    "U hear me?",
+    "This sounds good"
     ]
     locateY = 0
     locateX = 0
@@ -196,7 +147,7 @@ function backToMenu () {
     textSprite.setPosition(80, 100)
     textSprite.left = 0
     textSprite.setMaxFontHeight(6)
-    textSprite.setOutline(1, 6)
+    textSprite.setOutline(1, 4)
     scene.setBackgroundImage(img`
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
@@ -321,10 +272,20 @@ function backToMenu () {
         `)
     story.showPlayerChoices("New game", "Continue")
     if (story.checkLastAnswer("New game")) {
+        music.play(music.createSoundEffect(WaveShape.Sine, 5000, 0, 255, 0, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
         game.showLongText("Arrows to move cursor and player, up to jump(player), hold B to move cursor, release to place, A to change, up+right then left+down to save.", DialogLayout.Full)
         blockSettings.clear()
     } else {
-    	
+        music.play(music.createSoundEffect(
+        WaveShape.Sawtooth,
+        1,
+        5000,
+        0,
+        255,
+        500,
+        SoundExpressionEffect.Warble,
+        InterpolationCurve.Logarithmic
+        ), music.PlaybackMode.UntilDone)
     }
     story.showPlayerChoices("Day", "Night")
     if (story.checkLastAnswer("Day")) {
@@ -463,7 +424,7 @@ function load_world () {
     tiles.setCurrentTilemap(tilemap`level3`)
     load_item = 0
     list2 = blockSettings.readNumberArray("world")
-    for (let index = 0; index < 40 * 30; index++) {
+    for (let index = 0; index < 100 * 60; index++) {
         if (list2[load_item] == 0) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`0`)
         } else if (list2[load_item] == 1) {
@@ -484,7 +445,7 @@ function load_world () {
         	
         }
         load_item += 1
-        if (locateX == 39) {
+        if (locateX == 99) {
             locateX = 0
             locateY += 1
         } else {
@@ -493,18 +454,18 @@ function load_world () {
     }
 }
 let cursor: Sprite = null
+let canHoverBlocks = 0
 let list2: number[] = []
 let load_item = 0
 let textSprite: TextSprite = null
 let yellow_texts: string[] = []
-let canHoverBlocks = 0
 let text_list: string[] = []
 let item = 0
 let list22: number[] = []
 let locateY = 0
 let locateX = 0
-let my_sprite: Sprite = null
 let In_game = 0
+let my_sprite: Sprite = null
 color.setPalette(
 color.Black
 )
@@ -672,12 +633,11 @@ game.setDialogFrame(img`
     ..eeeeeeeeeeeeeeeeeeee..
     `)
 backToMenu()
+music.play(music.createSong(hex`003c000408020301001c000f05001202c102c20100040500280000006400280003140006020004180000000400012908000c0001270c001000012214001800012505001c000f0a006400f4010a0000040000000000000000000000000000000002180020002400012928002c0001272c003000012234003800012007001c00020a006400f401640000040000000000000000000000000000000003300000000800010608001000010810001800010d18002000010a20002800010628003000010a300038000108380040000106`), music.PlaybackMode.LoopingInBackground)
 forever(function () {
     if (controller.B.isPressed()) {
+        music.play(music.melodyPlayable(music.jumpDown), music.PlaybackMode.UntilDone)
         canHoverBlocks = 1
-        my_sprite.ay = 0
-        my_sprite.vy = 0
-        TileHitboxSetup()
         cursor = sprites.create(img`
             . . . . . . f f f f . . . . . . 
             . . . . . f f 1 1 f f . . . . . 
@@ -697,6 +657,7 @@ forever(function () {
             . . . . . . f f f f . . . . . . 
             `, SpriteKind.Player)
         cursor.setPosition(my_sprite.x, my_sprite.y)
+        cursor.setFlag(SpriteFlag.GhostThroughWalls, true)
         controller.moveSprite(cursor, 100, 100)
         controller.moveSprite(my_sprite, 0, 0)
         pauseUntil(() => !(controller.B.isPressed()))
@@ -723,8 +684,6 @@ forever(function () {
         }
         sprites.destroy(cursor)
         canHoverBlocks = 0
-        TileHitboxSetup()
-        my_sprite.ay = 400
         controller.moveSprite(my_sprite, 100, 0)
     }
 })
