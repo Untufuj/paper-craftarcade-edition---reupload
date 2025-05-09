@@ -15,7 +15,7 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
             100,
             SoundExpressionEffect.None,
             InterpolationCurve.Linear
-            ), music.PlaybackMode.UntilDone)
+            ), music.PlaybackMode.InBackground)
             my_sprite.vy = -175
         }
     }
@@ -271,7 +271,7 @@ function backToMenu () {
         `)
     story.showPlayerChoices("New game", "Continue")
     if (story.checkLastAnswer("New game")) {
-        music.play(music.createSoundEffect(WaveShape.Sine, 5000, 0, 255, 0, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
+        music.play(music.createSoundEffect(WaveShape.Sine, 5000, 0, 255, 0, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
         game.showLongText("Arrows to move cursor and player, up to jump(player), hold B to move cursor, release to place, A to change, up+right then left+down to save.", DialogLayout.Full)
         blockSettings.clear()
     } else {
@@ -284,7 +284,7 @@ function backToMenu () {
         500,
         SoundExpressionEffect.Warble,
         InterpolationCurve.Logarithmic
-        ), music.PlaybackMode.UntilDone)
+        ), music.PlaybackMode.InBackground)
     }
     story.showPlayerChoices("Day", "Night")
     if (story.checkLastAnswer("Day")) {
@@ -432,15 +432,19 @@ function load_world () {
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 2) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else if (list2[load_item] == 3) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile0`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else if (list2[load_item] == 4) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile1`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 5) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else if (list2[load_item] == 6) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else if (list2[load_item] == 7) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
@@ -639,7 +643,7 @@ backToMenu()
 music.play(music.createSong(hex`003c000408020301001c000f05001202c102c20100040500280000006400280003140006020004180000000400012908000c0001270c001000012214001800012505001c000f0a006400f4010a0000040000000000000000000000000000000002180020002400012928002c0001272c003000012234003800012007001c00020a006400f401640000040000000000000000000000000000000003300000000800010608001000010810001800010d18002000010a20002800010628003000010a300038000108380040000106`), music.PlaybackMode.LoopingInBackground)
 forever(function () {
     if (controller.B.isPressed()) {
-        music.play(music.melodyPlayable(music.jumpDown), music.PlaybackMode.UntilDone)
+        music.play(music.melodyPlayable(music.jumpDown), music.PlaybackMode.InBackground)
         canHoverBlocks = 1
         cursor = sprites.create(img`
             . . . . . . f f f f . . . . . . 
@@ -673,15 +677,19 @@ forever(function () {
                 tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 2) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile`)
+                tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 3) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile0`)
+                tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 4) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile1`)
                 tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 5) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile2`)
+                tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 6) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`transparency16`)
+                tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 7) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile3`)
                 tiles.setWallAt(cursor.tilemapLocation(), true)
