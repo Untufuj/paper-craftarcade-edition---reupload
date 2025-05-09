@@ -644,6 +644,8 @@ music.play(music.createSong(hex`003c000408020301001c000f05001202c102c20100040500
 forever(function () {
     if (controller.B.isPressed()) {
         music.play(music.melodyPlayable(music.jumpDown), music.PlaybackMode.InBackground)
+        my_sprite.ay = 0
+        my_sprite.vy = 0
         canHoverBlocks = 1
         cursor = sprites.create(img`
             . . . . . . f f f f . . . . . . 
@@ -700,6 +702,7 @@ forever(function () {
         sprites.destroy(cursor)
         canHoverBlocks = 0
         controller.moveSprite(my_sprite, 100, 0)
+        my_sprite.ay = 400
     }
     my_sprite.setFlag(SpriteFlag.GhostThroughWalls, false)
 })
