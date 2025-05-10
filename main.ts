@@ -25,7 +25,7 @@ function locate_tiles () {
     locateX = 0
     locateY = 0
     list22.pop()
-    for (let index = 0; index < 100 * 60; index++) {
+    for (let index = 0; index < 50 * 30; index++) {
         if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
             list22.push(0)
         } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
@@ -45,7 +45,7 @@ function locate_tiles () {
         } else {
         	
         }
-        if (locateX == 99) {
+        if (locateX == 49) {
             locateX = 0
             locateY += 1
         } else {
@@ -423,7 +423,7 @@ function load_world () {
     tiles.setCurrentTilemap(tilemap`level3`)
     load_item = 0
     list2 = blockSettings.readNumberArray("world")
-    for (let index = 0; index < 100 * 60; index++) {
+    for (let index = 0; index < 50 * 30; index++) {
         if (list2[load_item] == 0) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`0`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
@@ -452,7 +452,7 @@ function load_world () {
         	
         }
         load_item += 1
-        if (locateX == 99) {
+        if (locateX == 49) {
             locateX = 0
             locateY += 1
         } else {
