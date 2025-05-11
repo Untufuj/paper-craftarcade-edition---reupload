@@ -106,9 +106,6 @@ function setup () {
     my_sprite.ay = 400
 }
 function backToMenu () {
-    color.startFadeFromCurrent(color.Black, 500)
-    pause(1000)
-    color.startFadeFromCurrent(color.originalPalette, 500)
     text_list = [
     "Dirt",
     "Grass",
@@ -140,8 +137,8 @@ function backToMenu () {
     In_game = 0
     list22 = []
     music.play(music.createSong(hex`
-                        00780004080200
-                        `), music.PlaybackMode.InBackground)
+                                00780004080200
+                                `), music.PlaybackMode.InBackground)
     textSprite = textsprite.create(yellow_texts[randint(0, yellow_texts.length - 1)], 0, 5)
     textSprite.setPosition(80, 100)
     textSprite.left = 0
@@ -275,16 +272,7 @@ function backToMenu () {
         game.showLongText("Arrows to move cursor and player, up to jump(player), hold B to move cursor, release to place, A to change, up+right then left+down to save.", DialogLayout.Full)
         blockSettings.clear()
     } else {
-        music.play(music.createSoundEffect(
-        WaveShape.Sawtooth,
-        1,
-        5000,
-        0,
-        255,
-        500,
-        SoundExpressionEffect.Warble,
-        InterpolationCurve.Logarithmic
-        ), music.PlaybackMode.InBackground)
+        music.play(music.createSoundEffect(WaveShape.Sawtooth, 1, 5000, 0, 255, 500, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
     }
     story.showPlayerChoices("Day", "Night")
     if (story.checkLastAnswer("Day")) {
@@ -473,10 +461,6 @@ let locateY = 0
 let locateX = 0
 let my_sprite: Sprite = null
 let In_game = 0
-color.setPalette(
-color.Black
-)
-color.startFadeFromCurrent(color.originalPalette, 500)
 scene.setBackgroundImage(img`
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222

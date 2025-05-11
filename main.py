@@ -1,154 +1,175 @@
-controller.combos.attachCombo("U+RL+D", function () {
-    if (!(story.isMenuOpen())) {
+def on_combos_attach_combo():
+    if not (story.is_menu_open()):
         locate_tiles()
-    }
-})
-controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    my_sprite.setFlag(SpriteFlag.ShowPhysics, true)
-    if (In_game == 1 && !(controller.B.isPressed())) {
-        if (my_sprite.isHittingTile(CollisionDirection.Bottom) || tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`myTile`)) {
-            music.play(music.createSoundEffect(
-            WaveShape.Sine,
-            400,
-            600,
-            255,
-            0,
-            100,
-            SoundExpressionEffect.None,
-            InterpolationCurve.Linear
-            ), music.PlaybackMode.UntilDone)
+controller.combos.attach_combo("U+RL+D", on_combos_attach_combo)
+
+def on_up_pressed():
+    if In_game == 1 and not (controller.B.is_pressed()):
+        if my_sprite.is_hitting_tile(CollisionDirection.BOTTOM) or tiles.tile_at_location_equals(my_sprite.tilemap_location(),
+            assets.tile("""
+                myTile
+                """)):
+            music.play(music.create_sound_effect(WaveShape.SINE,
+                    400,
+                    600,
+                    255,
+                    0,
+                    100,
+                    SoundExpressionEffect.NONE,
+                    InterpolationCurve.LINEAR),
+                music.PlaybackMode.IN_BACKGROUND)
             my_sprite.vy = -175
-        }
-    }
-})
-function locate_tiles () {
-    scene.centerCameraAt(0, 0)
+controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
+
+def locate_tiles():
+    global locateX, locateY
+    scene.center_camera_at(0, 0)
     locateX = 0
     locateY = 0
     list22.pop()
-    for (let index = 0; index < 100 * 60; index++) {
-        if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
-            list22.push(0)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
-            list22.push(1)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile`)) {
-            list22.push(2)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile0`)) {
-            list22.push(3)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile1`)) {
-            list22.push(4)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)) {
-            list22.push(5)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
-            list22.push(6)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
-            list22.push(7)
-        } else {
-        	
-        }
-        if (locateX == 99) {
+    for index in range(50 * 30):
+        if tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                0
+                """)):
+            list22.append(0)
+        elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                1
+                """)):
+            list22.append(1)
+        elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                myTile
+                """)):
+            list22.append(2)
+        elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                myTile0
+                """)):
+            list22.append(3)
+        elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                myTile1
+                """)):
+            list22.append(4)
+        elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                myTile2
+                """)):
+            list22.append(5)
+        elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                transparency16
+                """)):
+            list22.append(6)
+        elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                myTile3
+                """)):
+            list22.append(7)
+        else:
+            pass
+        if locateX == 49:
             locateX = 0
             locateY += 1
-        } else {
+        else:
             locateX += 1
-        }
-    }
-    console.log(list22)
-    blockSettings.writeNumberArray("world", list22)
-    game.showLongText("World saved", DialogLayout.Center)
+    print(list22)
+    blockSettings.write_number_array("world", list22)
+    game.show_long_text("World saved", DialogLayout.CENTER)
     game.reset()
-}
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (In_game == 1) {
-        music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
-        if (item == 7) {
+
+def on_a_pressed():
+    global item
+    if In_game == 1:
+        music.play(music.melody_playable(music.ba_ding),
+            music.PlaybackMode.IN_BACKGROUND)
+        if item == 7:
             item = 0
-        } else {
+        else:
             item += 1
-        }
-        my_sprite.sayText(text_list[item], 5000, false)
-    }
-})
-function setup () {
-    if (blockSettings.exists("world")) {
+        my_sprite.say_text(text_list[item], 5000, False)
+controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
+
+def setup():
+    global my_sprite
+    if blockSettings.exists("world"):
         load_world()
-    } else {
-        story.showPlayerChoices("Template 1", "Template 2", "Blank")
-        if (story.checkLastAnswer("Template 2")) {
-            scene.setTileMapLevel(tilemap`
+    else:
+        story.show_player_choices("Template 1", "Template 2", "Blank")
+        if story.check_last_answer("Template 2"):
+            scene.set_tile_map_level(tilemap("""
                 level1
-                `)
-        } else if (story.checkLastAnswer("Template 1")) {
-            tiles.setCurrentTilemap(tilemap`level`)
-        } else {
-            tiles.setCurrentTilemap(tilemap`level3`)
-        }
-    }
-    my_sprite = sprites.create(img`
-        . . . . 7 7 7 . . . . 
-        . . . 7 7 7 7 7 . . . 
-        . . . . f d f . . . . 
-        . . . . d d d . . . . 
-        . . 9 9 9 9 9 9 9 . . 
-        . . 9 9 9 9 9 9 9 . . 
-        . . d 9 9 9 9 9 d . . 
-        . . d 9 9 9 9 9 d . . 
-        . . d 9 9 9 9 9 d . . 
-        . . . 9 9 9 9 9 . . . 
-        . . . 8 8 8 8 8 . . . 
-        . . . 8 8 8 8 8 . . . 
-        . . . 8 8 . 8 8 . . . 
-        . . . 8 8 . 8 8 . . . 
-        . . . 8 8 . 8 8 . . . 
-        . . e e e . e e e . . 
-        `, SpriteKind.Player)
-    scene.cameraFollowSprite(my_sprite)
-    controller.moveSprite(my_sprite, 100, 0)
+                """))
+        elif story.check_last_answer("Template 1"):
+            tiles.set_current_tilemap(tilemap("""
+                level
+                """))
+        else:
+            tiles.set_current_tilemap(tilemap("""
+                level3
+                """))
+    my_sprite = sprites.create(img("""
+            . . . . 7 7 7 . . . .
+            . . . 7 7 7 7 7 . . .
+            . . . . f d f . . . .
+            . . . . d d d . . . .
+            . . 9 9 9 9 9 9 9 . .
+            . . 9 9 9 9 9 9 9 . .
+            . . d 9 9 9 9 9 d . .
+            . . d 9 9 9 9 9 d . .
+            . . d 9 9 9 9 9 d . .
+            . . . 9 9 9 9 9 . . .
+            . . . 8 8 8 8 8 . . .
+            . . . 8 8 8 8 8 . . .
+            . . . 8 8 . 8 8 . . .
+            . . . 8 8 . 8 8 . . .
+            . . . 8 8 . 8 8 . . .
+            . . e e e . e e e . .
+            """),
+        SpriteKind.player)
+    scene.camera_follow_sprite(my_sprite)
+    controller.move_sprite(my_sprite, 100, 0)
     my_sprite.ay = 400
-}
-function backToMenu () {
-    color.startFadeFromCurrent(color.Black, 500)
-    pause(1000)
-    color.startFadeFromCurrent(color.originalPalette, 500)
-    text_list = [
-    "Dirt",
-    "Grass",
-    "Water",
-    "Planks",
-    "Trunk",
-    "Leaves",
-    "Air",
-    "Stone"
-    ]
-    yellow_texts = [
-    "Arcade!",
-    "Simple, isn't it?",
-    "Minecraft but not Minecraft",
-    "Anyone plays this?",
-    "Completely free",
-    "Das ist nicht in Deutsch",
-    "Who reads this?",
-    "2D",
-    "The player is YOU",
-    "New gameplay",
-    "Build, jumped, swum",
-    "1.1!",
-    "U hear me?",
-    "This sounds good"
-    ]
+def backToMenu():
+    global text_list, yellow_texts, locateY, locateX, In_game, list22, textSprite
+    text_list = ["Dirt",
+        "Grass",
+        "Water",
+        "Planks",
+        "Trunk",
+        "Leaves",
+        "Air",
+        "Stone"]
+    yellow_texts = ["Arcade!",
+        "Simple, isn't it?",
+        "Minecraft but not Minecraft",
+        "Anyone plays this?",
+        "Completely free",
+        "Das ist nicht in Deutsch",
+        "Who reads this?",
+        "2D",
+        "The player is YOU",
+        "New gameplay",
+        "Build, jumped, swum",
+        "1.1!",
+        "U hear me?",
+        "This sounds good"]
     locateY = 0
     locateX = 0
     In_game = 0
     list22 = []
-    music.play(music.createSong(hex`
-                        00780004080200
-                        `), music.PlaybackMode.InBackground)
-    textSprite = textsprite.create(yellow_texts[randint(0, yellow_texts.length - 1)], 0, 5)
-    textSprite.setPosition(80, 100)
+    music.play(music.create_song(hex("""
+            00780004080200
+            """)),
+        music.PlaybackMode.IN_BACKGROUND)
+    textSprite = textsprite.create(yellow_texts[randint(0, len(yellow_texts) - 1)], 0, 5)
+    textSprite.set_position(80, 100)
     textSprite.left = 0
-    textSprite.setMaxFontHeight(6)
-    textSprite.setOutline(1, 4)
-    scene.setBackgroundImage(img`
+    textSprite.set_max_font_height(6)
+    textSprite.set_outline(1, 4)
+    scene.set_background_image(img("""
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
@@ -269,35 +290,41 @@ function backToMenu () {
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
         eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-        `)
-    story.showPlayerChoices("New game", "Continue")
-    if (story.checkLastAnswer("New game")) {
-        music.play(music.createSoundEffect(WaveShape.Sine, 5000, 0, 255, 0, 500, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.UntilDone)
-        game.showLongText("Arrows to move cursor and player, up to jump(player), hold B to move cursor, release to place, A to change, up+right then left+down to save.", DialogLayout.Full)
+        """))
+    story.show_player_choices("New game", "Continue")
+    if story.check_last_answer("New game"):
+        music.play(music.create_sound_effect(WaveShape.SINE,
+                5000,
+                0,
+                255,
+                0,
+                500,
+                SoundExpressionEffect.NONE,
+                InterpolationCurve.LINEAR),
+            music.PlaybackMode.IN_BACKGROUND)
+        game.show_long_text("Arrows to move cursor and player, up to jump(player), hold B to move cursor, release to place, A to change, up+right then left+down to save.",
+            DialogLayout.FULL)
         blockSettings.clear()
-    } else {
-        music.play(music.createSoundEffect(
-        WaveShape.Sawtooth,
-        1,
-        5000,
-        0,
-        255,
-        500,
-        SoundExpressionEffect.Warble,
-        InterpolationCurve.Logarithmic
-        ), music.PlaybackMode.UntilDone)
-    }
-    story.showPlayerChoices("Day", "Night")
-    if (story.checkLastAnswer("Day")) {
-        scene.setBackgroundColor(9)
-    } else {
-        scene.setBackgroundColor(8)
-    }
+    else:
+        music.play(music.create_sound_effect(WaveShape.SAWTOOTH,
+                1,
+                5000,
+                0,
+                255,
+                500,
+                SoundExpressionEffect.WARBLE,
+                InterpolationCurve.LOGARITHMIC),
+            music.PlaybackMode.IN_BACKGROUND)
+    story.show_player_choices("Day", "Night")
+    if story.check_last_answer("Day"):
+        scene.set_background_color(9)
+    else:
+        scene.set_background_color(8)
     sprites.destroy(textSprite)
     setup()
-    controller.combos.setTriggerType(TriggerType.Continuous)
+    controller.combos.set_trigger_type(TriggerType.CONTINUOUS)
     In_game = 1
-    scene.setBackgroundImage(img`
+    scene.set_background_image(img("""
         ................................................................................................................................................................
         ................................................................................................................................................................
         ................................................................................................................................................................
@@ -418,59 +445,85 @@ function backToMenu () {
         ................................................................................................................................................................
         ................................................................................................................................................................
         ................................................................................................................................................................
-        `)
-}
-function load_world () {
-    tiles.setCurrentTilemap(tilemap`level3`)
+        """))
+def load_world():
+    global load_item, list2, locateX, locateY
+    tiles.set_current_tilemap(tilemap("""
+        level3
+        """))
     load_item = 0
-    list2 = blockSettings.readNumberArray("world")
-    for (let index = 0; index < 100 * 60; index++) {
-        if (list2[load_item] == 0) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`0`)
-        } else if (list2[load_item] == 1) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`1`)
-        } else if (list2[load_item] == 2) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile`)
-        } else if (list2[load_item] == 3) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile0`)
-        } else if (list2[load_item] == 4) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile1`)
-        } else if (list2[load_item] == 5) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile2`)
-        } else if (list2[load_item] == 6) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
-        } else if (list2[load_item] == 7) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)
-        } else {
-        	
-        }
+    list2 = blockSettings.read_number_array("world")
+    for index2 in range(50 * 30):
+        if list2[load_item] == 0:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    0
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), True)
+        elif list2[load_item] == 1:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    1
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), True)
+        elif list2[load_item] == 2:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    myTile
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
+        elif list2[load_item] == 3:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    myTile0
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
+        elif list2[load_item] == 4:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    myTile1
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), True)
+        elif list2[load_item] == 5:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    myTile2
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
+        elif list2[load_item] == 6:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    transparency16
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
+        elif list2[load_item] == 7:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    myTile3
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), True)
+        else:
+            pass
         load_item += 1
-        if (locateX == 39) {
+        if locateX == 49:
             locateX = 0
             locateY += 1
-        } else {
+        else:
             locateX += 1
-        }
-    }
-}
-let cursor: Sprite = null
-let canHoverBlocks = 0
-let list2: number[] = []
-let load_item = 0
-let textSprite: TextSprite = null
-let yellow_texts: string[] = []
-let text_list: string[] = []
-let item = 0
-let list22: number[] = []
-let locateY = 0
-let locateX = 0
-let In_game = 0
-let my_sprite: Sprite = null
-color.setPalette(
-color.Black
-)
-color.startFadeFromCurrent(color.originalPalette, 500)
-scene.setBackgroundImage(img`
+cursor: Sprite = None
+canHoverBlocks = 0
+list2: List[number] = []
+load_item = 0
+textSprite: TextSprite = None
+yellow_texts: List[str] = []
+text_list: List[str] = []
+item = 0
+list22: List[number] = []
+locateY = 0
+locateX = 0
+my_sprite: Sprite = None
+In_game = 0
+scene.set_background_image(img("""
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
@@ -591,22 +644,22 @@ scene.setBackgroundImage(img`
     2222212222222112221221111111122111222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     2222221111112221221222222222122222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     2222222222222222111222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
-    `)
+    """))
 pause(1000)
-game.setDialogCursor(img`
-    . . c c c c c c c . . 
-    . c f f f f f f f c . 
-    c f f f 2 2 2 f f f c 
-    c f f 2 2 f 2 2 f f c 
-    c f f 2 2 f 2 2 f f c 
-    c f f 2 2 2 2 2 f f c 
-    c f f 2 2 f 2 2 f f c 
-    c f f f f f f f f f c 
-    c f f f f f f f f f c 
-    . c f f f f f f f c . 
-    . . c c c c c c c . . 
-    `)
-game.setDialogFrame(img`
+game.set_dialog_cursor(img("""
+    . . c c c c c c c . .
+    . c f f f f f f f c .
+    c f f f 2 2 2 f f f c
+    c f f 2 2 f 2 2 f f c
+    c f f 2 2 f 2 2 f f c
+    c f f 2 2 2 2 2 f f c
+    c f f 2 2 f 2 2 f f c
+    c f f f f f f f f f c
+    c f f f f f f f f f c
+    . c f f f f f f f c .
+    . . c c c c c c c . .
+    """))
+game.set_dialog_frame(img("""
     ..11111111111111111111..
     .cccccccccccccccccccccc.
     cccccccccccccccccccccccc
@@ -631,58 +684,101 @@ game.setDialogFrame(img`
     edddddddddddddddddddddde
     .ebbbbbbbbbbbbbbbbbbbbe.
     ..eeeeeeeeeeeeeeeeeeee..
-    `)
+    """))
 backToMenu()
-music.play(music.createSong(hex`003c000408020301001c000f05001202c102c20100040500280000006400280003140006020004180000000400012908000c0001270c001000012214001800012505001c000f0a006400f4010a0000040000000000000000000000000000000002180020002400012928002c0001272c003000012234003800012007001c00020a006400f401640000040000000000000000000000000000000003300000000800010608001000010810001800010d18002000010a20002800010628003000010a300038000108380040000106`), music.PlaybackMode.LoopingInBackground)
-forever(function () {
-    if (controller.B.isPressed()) {
+music.play(music.create_song(hex("""
+        003c000408020301001c000f05001202c102c20100040500280000006400280003140006020004180000000400012908000c0001270c001000012214001800012505001c000f0a006400f4010a0000040000000000000000000000000000000002180020002400012928002c0001272c003000012234003800012007001c00020a006400f401640000040000000000000000000000000000000003300000000800010608001000010810001800010d18002000010a20002800010628003000010a300038000108380040000106
+        """)),
+    music.PlaybackMode.LOOPING_IN_BACKGROUND)
+
+def on_forever():
+    global canHoverBlocks, cursor
+    if controller.B.is_pressed():
+        music.play(music.melody_playable(music.jump_down),
+            music.PlaybackMode.IN_BACKGROUND)
         canHoverBlocks = 1
-        cursor = sprites.create(img`
-            . . . . . . f f f f . . . . . . 
-            . . . . . f f 1 1 f f . . . . . 
-            . . . . f 1 f 1 1 f 1 f . . . . 
-            . . . f 1 . f 1 1 f . 1 f . . . 
-            . . f 1 . . f 1 1 f . . 1 f . . 
-            . f 1 . . . f 1 1 f . . . 1 f . 
-            f f f f f f f 1 1 f f f f f f f 
-            f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f 
-            f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f 
-            f f f f f f f 1 1 f f f f f f f 
-            . f 1 . . . f 1 1 f . . . 1 f . 
-            . . f 1 . . f 1 1 f . . 1 f . . 
-            . . . f 1 . f 1 1 f . 1 f . . . 
-            . . . . f 1 f 1 1 f 1 f . . . . 
-            . . . . . f f 1 1 f f . . . . . 
-            . . . . . . f f f f . . . . . . 
-            `, SpriteKind.Player)
-        cursor.setPosition(my_sprite.x, my_sprite.y)
-        cursor.setFlag(SpriteFlag.GhostThroughWalls, true)
-        controller.moveSprite(cursor, 100, 100)
-        controller.moveSprite(my_sprite, 0, 0)
-        pauseUntil(() => !(controller.B.isPressed()))
-        if (In_game == 1) {
-            if (item == 0) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`0`)
-            } else if (item == 1) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`1`)
-            } else if (item == 2) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile`)
-            } else if (item == 3) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile0`)
-            } else if (item == 4) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile1`)
-            } else if (item == 5) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile2`)
-            } else if (item == 6) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`transparency16`)
-            } else if (item == 7) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile3`)
-            } else {
-            	
-            }
-        }
+        my_sprite.ay = 0
+        my_sprite.vy = 0
+        cursor = sprites.create(img("""
+                . . . . . . f f f f . . . . . .
+                . . . . . f f 1 1 f f . . . . .
+                . . . . f 1 f 1 1 f 1 f . . . .
+                . . . f 1 . f 1 1 f . 1 f . . .
+                . . f 1 . . f 1 1 f . . 1 f . .
+                . f 1 . . . f 1 1 f . . . 1 f .
+                f f f f f f f 1 1 f f f f f f f
+                f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f
+                f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f
+                f f f f f f f 1 1 f f f f f f f
+                . f 1 . . . f 1 1 f . . . 1 f .
+                . . f 1 . . f 1 1 f . . 1 f . .
+                . . . f 1 . f 1 1 f . 1 f . . .
+                . . . . f 1 f 1 1 f 1 f . . . .
+                . . . . . f f 1 1 f f . . . . .
+                . . . . . . f f f f . . . . . .
+                """),
+            SpriteKind.player)
+        cursor.set_position(my_sprite.x, my_sprite.y)
+        cursor.set_flag(SpriteFlag.GHOST_THROUGH_WALLS, True)
+        controller.move_sprite(cursor, 100, 100)
+        controller.move_sprite(my_sprite, 0, 0)
+        
+        def on_pause_until():
+            pass
+        pause_until(on_pause_until)
+        
+        if In_game == 1:
+            if item == 0:
+                tiles.set_tile_at(cursor.tilemap_location(), assets.tile("""
+                    0
+                    """))
+                tiles.set_wall_at(cursor.tilemap_location(), True)
+            elif item == 1:
+                tiles.set_tile_at(cursor.tilemap_location(), assets.tile("""
+                    1
+                    """))
+                tiles.set_wall_at(cursor.tilemap_location(), True)
+            elif item == 2:
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile
+                        """))
+                tiles.set_wall_at(cursor.tilemap_location(), False)
+            elif item == 3:
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile0
+                        """))
+                tiles.set_wall_at(cursor.tilemap_location(), False)
+            elif item == 4:
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile1
+                        """))
+                tiles.set_wall_at(cursor.tilemap_location(), True)
+            elif item == 5:
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile2
+                        """))
+                tiles.set_wall_at(cursor.tilemap_location(), False)
+            elif item == 6:
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        transparency16
+                        """))
+                tiles.set_wall_at(cursor.tilemap_location(), False)
+            elif item == 7:
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile3
+                        """))
+                tiles.set_wall_at(cursor.tilemap_location(), True)
+            else:
+                pass
         sprites.destroy(cursor)
         canHoverBlocks = 0
-        controller.moveSprite(my_sprite, 100, 0)
-    }
-})
+        controller.move_sprite(my_sprite, 100, 0)
+        my_sprite.ay = 400
+    my_sprite.set_flag(SpriteFlag.GHOST_THROUGH_WALLS, False)
+forever(on_forever)
