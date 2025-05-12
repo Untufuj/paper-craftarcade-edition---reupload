@@ -1,8 +1,3 @@
-controller.combos.attachCombo("U+RL+D", function () {
-    if (!(story.isMenuOpen())) {
-        locate_tiles()
-    }
-})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (In_game == 1 && !(controller.B.isPressed())) {
         if (my_sprite.isHittingTile(CollisionDirection.Bottom) || tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`myTile`)) {
@@ -42,6 +37,8 @@ function locate_tiles () {
             list22.push(6)
         } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)) {
             list22.push(7)
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`myTile4`)) {
+            list22.push(8)
         } else {
         	
         }
@@ -60,12 +57,17 @@ function locate_tiles () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (In_game == 1) {
         music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
-        if (item == 7) {
+        if (item == 8) {
             item = 0
         } else {
             item += 1
         }
         my_sprite.sayText(text_list[item], 5000, false)
+    }
+})
+controller.menu.onEvent(ControllerButtonEvent.Repeated, function () {
+    if (!(story.isMenuOpen())) {
+        locate_tiles()
     }
 })
 function setup () {
@@ -114,7 +116,8 @@ function backToMenu () {
     "Trunk",
     "Leaves",
     "Air",
-    "Stone"
+    "Stone",
+    "Flowers"
     ]
     yellow_texts = [
     "Arcade!",
@@ -130,7 +133,8 @@ function backToMenu () {
     "Build, jumped, swum",
     "1.1!",
     "U hear me?",
-    "This sounds good"
+    "This sounds good",
+    "Flowers!"
     ]
     locateY = 0
     locateX = 0
@@ -436,6 +440,9 @@ function load_world () {
         } else if (list2[load_item] == 7) {
             tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile3`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
+        } else if (list2[load_item] == 8) {
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`myTile4`)
+            tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else {
         	
         }
@@ -678,6 +685,9 @@ forever(function () {
                 tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 7) {
                 tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile3`)
+                tiles.setWallAt(cursor.tilemapLocation(), true)
+            } else if (item == 8) {
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`myTile4`)
                 tiles.setWallAt(cursor.tilemapLocation(), true)
             } else {
             	
