@@ -1,14 +1,12 @@
-def on_combos_attach_combo():
-    if not (story.is_menu_open()):
-        locate_tiles()
-controller.combos.attach_combo("U+RL+D", on_combos_attach_combo)
+@namespace
+class SpriteKind:
+    MiniMenu = SpriteKind.create()
 
 def on_up_pressed():
     if In_game == 1 and not (controller.B.is_pressed()):
-        if my_sprite.is_hitting_tile(CollisionDirection.BOTTOM) or tiles.tile_at_location_equals(my_sprite.tilemap_location(),
-            assets.tile("""
-                myTile
-                """)):
+        if my_sprite.is_hitting_tile(CollisionDirection.BOTTOM) or tiles.tile_at_location_equals(my_sprite.tilemap_location(), assets.tile("""
+            1
+            """)):
             music.play(music.create_sound_effect(WaveShape.SINE,
                     400,
                     600,
@@ -19,6 +17,11 @@ def on_up_pressed():
                     InterpolationCurve.LINEAR),
                 music.PlaybackMode.IN_BACKGROUND)
             my_sprite.vy = -175
+            if tiles.tile_at_location_equals(my_sprite.tilemap_location(),
+                assets.tile("""
+                    myTile
+                    """)):
+                my_sprite.start_effect(effects.bubbles, 1000)
 controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def locate_tiles():
@@ -68,6 +71,11 @@ def locate_tiles():
                 myTile3
                 """)):
             list22.append(7)
+        elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
+            assets.tile("""
+                myTile4
+                """)):
+            list22.append(8)
         else:
             pass
         if locateX == 49:
@@ -85,7 +93,7 @@ def on_a_pressed():
     if In_game == 1:
         music.play(music.melody_playable(music.ba_ding),
             music.PlaybackMode.IN_BACKGROUND)
-        if item == 7:
+        if item == 8:
             item = 0
         else:
             item += 1
@@ -111,22 +119,22 @@ def setup():
                 level3
                 """))
     my_sprite = sprites.create(img("""
-            . . . . 7 7 7 . . . .
-            . . . 7 7 7 7 7 . . .
-            . . . . f d f . . . .
-            . . . . d d d . . . .
-            . . 9 9 9 9 9 9 9 . .
-            . . 9 9 9 9 9 9 9 . .
-            . . d 9 9 9 9 9 d . .
-            . . d 9 9 9 9 9 d . .
-            . . d 9 9 9 9 9 d . .
-            . . . 9 9 9 9 9 . . .
-            . . . 8 8 8 8 8 . . .
-            . . . 8 8 8 8 8 . . .
-            . . . 8 8 . 8 8 . . .
-            . . . 8 8 . 8 8 . . .
-            . . . 8 8 . 8 8 . . .
-            . . e e e . e e e . .
+            . . . c 7 7 7 c . . .
+            . . c 7 7 7 7 7 c . .
+            . . . c f d f c . . .
+            . . c c d d d c c . .
+            . c 2 2 2 2 2 2 2 c .
+            . c 2 2 2 2 2 2 2 c .
+            . c d 2 2 2 2 2 d c .
+            . c d 2 2 2 2 2 d c .
+            . c d 2 2 2 2 2 d c .
+            . . c 2 2 2 2 2 c . .
+            . . c 6 6 6 6 6 c . .
+            . . c 6 6 6 6 6 c . .
+            . . c 6 6 c 6 6 c . .
+            . . c 6 6 c 6 6 c . .
+            . . c 6 6 c 6 6 c c .
+            . c e e e c e e e c .
             """),
         SpriteKind.player)
     scene.camera_follow_sprite(my_sprite)
@@ -141,7 +149,8 @@ def backToMenu():
         "Trunk",
         "Leaves",
         "Air",
-        "Stone"]
+        "Stone",
+        "Flowers"]
     yellow_texts = ["Arcade!",
         "Simple, isn't it?",
         "Minecraft but not Minecraft",
@@ -155,7 +164,8 @@ def backToMenu():
         "Build, jumped, swum",
         "1.1!",
         "U hear me?",
-        "This sounds good"]
+        "This sounds good",
+        "Flowers!"]
     locateY = 0
     locateX = 0
     In_game = 0
@@ -302,7 +312,7 @@ def backToMenu():
                 SoundExpressionEffect.NONE,
                 InterpolationCurve.LINEAR),
             music.PlaybackMode.IN_BACKGROUND)
-        game.show_long_text("Arrows to move cursor and player, up to jump(player), hold B to move cursor, release to place, A to change, up+right then left+down to save.",
+        game.show_long_text("Arrows to move cursor and player, up to jump(player), hold B to move cursor, release to place, A to change, Press Up, down, left, right to save.",
             DialogLayout.FULL)
         blockSettings.clear()
     else:
@@ -446,6 +456,11 @@ def backToMenu():
         ................................................................................................................................................................
         ................................................................................................................................................................
         """))
+
+def on_combos_attach_combo():
+    locate_tiles()
+controller.combos.attach_combo("U D L R", on_combos_attach_combo)
+
 def load_world():
     global load_item, list2, locateX, locateY
     tiles.set_current_tilemap(tilemap("""
@@ -502,6 +517,12 @@ def load_world():
                     myTile3
                     """))
             tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), True)
+        elif list2[load_item] == 8:
+            tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
+                assets.tile("""
+                    myTile4
+                    """))
+            tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
         else:
             pass
         load_item += 1
@@ -523,6 +544,8 @@ locateY = 0
 locateX = 0
 my_sprite: Sprite = None
 In_game = 0
+controller.configure_repeat_event_defaults(100, 500)
+controller.start_light_animation(light.running_lights_animation, 500)
 scene.set_background_image(img("""
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
     2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
@@ -685,6 +708,7 @@ game.set_dialog_frame(img("""
     .ebbbbbbbbbbbbbbbbbbbbe.
     ..eeeeeeeeeeeeeeeeeeee..
     """))
+effects.clouds.start_screen_effect()
 backToMenu()
 music.play(music.create_song(hex("""
         003c000408020301001c000f05001202c102c20100040500280000006400280003140006020004180000000400012908000c0001270c001000012214001800012505001c000f0a006400f4010a0000040000000000000000000000000000000002180020002400012928002c0001272c003000012234003800012007001c00020a006400f401640000040000000000000000000000000000000003300000000800010608001000010810001800010d18002000010a20002800010628003000010a300038000108380040000106
@@ -725,6 +749,7 @@ def on_forever():
         
         def on_pause_until():
             pass
+            return not controller.B.is_pressed()
         pause_until(on_pause_until)
         
         if In_game == 1:
@@ -774,9 +799,15 @@ def on_forever():
                         myTile3
                         """))
                 tiles.set_wall_at(cursor.tilemap_location(), True)
+            elif item == 8:
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile4
+                        """))
+                tiles.set_wall_at(cursor.tilemap_location(), False)
             else:
                 pass
-        sprites.destroy(cursor)
+        sprites.destroy(cursor, effects.ashes, 1)
         canHoverBlocks = 0
         controller.move_sprite(my_sprite, 100, 0)
         my_sprite.ay = 400
