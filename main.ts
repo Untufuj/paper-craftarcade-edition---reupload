@@ -39,7 +39,7 @@ scene.systemMenu.addEntry(function on_system_menu_add_entry(): string {
         ................................
         ................................
         ................................
-        `)
+    `)
 controller.up.onEvent(ControllerButtonEvent.Pressed, function on_up_pressed() {
     if (In_game == 1 && !controller.B.isPressed()) {
         if (my_sprite.isHittingTile(CollisionDirection.Bottom) || tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`
@@ -59,8 +59,8 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function on_up_pressed() {
     
 })
 function locate_tiles() {
-    
     scene.systemMenu.closeMenu()
+    
     scene.centerCameraAt(0, 0)
     locateX = 0
     locateY = 0
@@ -744,6 +744,7 @@ forever(function on_forever() {
         controller.moveSprite(cursor, 100, 100)
         controller.moveSprite(my_sprite, 0, 0)
         pauseUntil(function on_pause_until(): boolean {
+            
             return !controller.B.isPressed()
         })
         if (In_game == 1) {

@@ -3,6 +3,7 @@ class SpriteKind:
     MiniMenu = SpriteKind.create()
 
 def on_system_menu_add_entry():
+
     return "Save and Quit"
 def on_system_menu_add_entry2():
     locate_tiles()
@@ -41,10 +42,10 @@ scene.systemMenu.add_entry(on_system_menu_add_entry,
         ................................
         ................................
         ................................
-        """))
+    """))
 
 def on_up_pressed():
-    if In_game == 1 and not controller.B.is_pressed():
+    if In_game == 1 and not (controller.B.is_pressed()):
         if my_sprite.is_hitting_tile(CollisionDirection.BOTTOM) or tiles.tile_at_location_equals(my_sprite.tilemap_location(), assets.tile("""
             2
             """)):
@@ -65,8 +66,8 @@ def on_up_pressed():
 controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def locate_tiles():
-    global locateX, locateY
     scene.systemMenu.close_menu()
+    global locateX, locateY
     scene.center_camera_at(0, 0)
     locateX = 0
     locateY = 0
@@ -790,6 +791,7 @@ def on_forever():
         controller.move_sprite(my_sprite, 0, 0)
         
         def on_pause_until():
+            pass
             return not controller.B.is_pressed()
         pause_until(on_pause_until)
         
