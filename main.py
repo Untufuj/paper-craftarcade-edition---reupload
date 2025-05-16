@@ -1,6 +1,7 @@
 @namespace
 class SpriteKind:
     MiniMenu = SpriteKind.create()
+
 def on_system_menu_add_entry():
 
     return "Save and Quit"
