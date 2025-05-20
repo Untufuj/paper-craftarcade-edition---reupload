@@ -1,127 +1,57 @@
 namespace SpriteKind {
     export const MiniMenu = SpriteKind.create()
 }
-
-scene.systemMenu.addEntry(function on_system_menu_add_entry(): string {
-    return "Save and Quit"
-}, function on_system_menu_add_entry2() {
-    locate_tiles()
-}, img`
-        ................................
-        ..............888...............
-        ..............888...............
-        ..............888...............
-        ..........bbbb888bbbb...........
-        .........bbbbb888bbbbb..........
-        .......bbbbbbb888bbbbbbb........
-        ......bfffffff888fbbbbbbb.......
-        .....bffffffff888ffbbbbbbb......
-        .....bff188811888ff888bbbb......
-        ....bbff188881888f8888bbbbb.....
-        ...bbbff18888888888888bbbbbb....
-        ...bbbff1188888888888ffbbbbb....
-        ...bbbff111888888888ffffbbbb....
-        ...bbbffffff8888888ffffffbbb....
-        ...bbbfffffff88888ffffffffbb....
-        ...bbbffffff1188811fffffffbb....
-        ...bbbffffff1111111fffffffbb....
-        ...bbbffffff1111111fffffffbb....
-        ...bbbffffff1111111fffffffbb....
-        ...bbbffffff1111111fffffffbb....
-        ...bbbfffffff11111ffffffffbb....
-        ....bbffffffffffffffffffffb.....
-        .....bbbbbbbbbbbbbbbbbbbbb......
-        .....bbbccccccccccccccbbbb......
-        ......bbccccccccccccccbbb.......
-        .......bbccccccccccccbbb........
-        .........bbbbbbbbbbbbb..........
-        ..........bbbbbbbbbbb...........
-        ................................
-        ................................
-        ................................
-        `)
-controller.up.onEvent(ControllerButtonEvent.Pressed, function on_up_pressed() {
-    if (In_game == 1 && !controller.B.isPressed()) {
-        if (my_sprite.isHittingTile(CollisionDirection.Bottom) || tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`
-            2
-            `)) {
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (In_game == 1 && !(controller.B.isPressed())) {
+        if (my_sprite.isHittingTile(CollisionDirection.Bottom) || tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`2`)) {
             music.play(music.createSoundEffect(WaveShape.Sine, 400, 600, 255, 0, 100, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
             my_sprite.vy = -175
-            if (tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`
-                2
-                `)) {
+            if (tiles.tileAtLocationEquals(my_sprite.tilemapLocation(), assets.tile`2`)) {
                 my_sprite.startEffect(effects.bubbles, 1000)
             }
-            
         }
-        
     }
-    
 })
-function locate_tiles() {
-    
-    scene.systemMenu.closeMenu()
+function locate_tiles () {
     scene.centerCameraAt(0, 0)
     locateX = 0
     locateY = 0
     list22.pop()
     for (let index = 0; index < 50 * 30; index++) {
-        if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                0
-                `)) {
+        if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`0`)) {
             list22.push(0)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                1
-                `)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`1`)) {
             list22.push(1)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                2
-                `)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`2`)) {
             list22.push(2)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                3
-                `)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`3`)) {
             list22.push(3)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                4
-                `)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`4`)) {
             list22.push(4)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                5
-                `)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`5`)) {
             list22.push(5)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                transparency16
-                `)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)) {
             list22.push(6)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                7
-                `)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`7`)) {
             list22.push(7)
-        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`
-                8
-                `)) {
+        } else if (tiles.tileAtLocationEquals(tiles.getTileLocation(locateX, locateY), assets.tile`8`)) {
             list22.push(8)
         } else {
-            
+        	
         }
-        
         if (locateX == 49) {
             locateX = 0
             locateY += 1
         } else {
             locateX += 1
         }
-        
     }
     console.log(list22)
     blockSettings.writeNumberArray("world", list22)
     game.showLongText("World saved", DialogLayout.Center)
     game.reset()
 }
-
-controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed() {
-    
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (In_game == 1) {
         music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
         if (item == 8) {
@@ -129,13 +59,10 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function on_a_pressed() {
         } else {
             item += 1
         }
-        
         my_sprite.sayText(text_list[item], 5000, false)
     }
-    
 })
-function setup() {
-    
+function setup () {
     if (blockSettings.exists("world")) {
         load_world()
     } else {
@@ -145,51 +72,70 @@ function setup() {
                 level1
                 `)
         } else if (story.checkLastAnswer("Template 1")) {
-            tiles.setCurrentTilemap(tilemap`
-                level
-                `)
+            tiles.setCurrentTilemap(tilemap`level`)
         } else {
-            tiles.setCurrentTilemap(tilemap`
-                level3
-                `)
+            tiles.setCurrentTilemap(tilemap`level3`)
         }
-        
     }
-    
     my_sprite = sprites.create(img`
-            . . . c 7 7 7 c . . .
-            . . c 7 7 7 7 7 c . .
-            . . . c f d f c . . .
-            . . c c d d d c c . .
-            . c 2 2 2 2 2 2 2 c .
-            . c 2 2 2 2 2 2 2 c .
-            . c d 2 2 2 2 2 d c .
-            . c d 2 2 2 2 2 d c .
-            . c d 2 2 2 2 2 d c .
-            . . c 2 2 2 2 2 c . .
-            . . c 6 6 6 6 6 c . .
-            . . c 6 6 6 6 6 c . .
-            . . c 6 6 c 6 6 c . .
-            . . c 6 6 c 6 6 c . .
-            . . c 6 6 c 6 6 c c .
-            . c e e e c e e e c .
-            `, SpriteKind.Player)
+        . . . c 7 7 7 c . . . 
+        . . c 7 7 7 7 7 c . . 
+        . . . c f d f c . . . 
+        . . c c d d d c c . . 
+        . c 2 2 2 2 2 2 2 c . 
+        . c 2 2 2 2 2 2 2 c . 
+        . c d 2 2 2 2 2 d c . 
+        . c d 2 2 2 2 2 d c . 
+        . c d 2 2 2 2 2 d c . 
+        . . c 2 2 2 2 2 c . . 
+        . . c 6 6 6 6 6 c . . 
+        . . c 6 6 6 6 6 c . . 
+        . . c 6 6 c 6 6 c . . 
+        . . c 6 6 c 6 6 c . . 
+        . . c 6 6 c 6 6 c c . 
+        . c e e e c e e e c . 
+        `, SpriteKind.Player)
     scene.cameraFollowSprite(my_sprite)
     controller.moveSprite(my_sprite, 100, 0)
     my_sprite.ay = 400
 }
-
-function backToMenu() {
-    
-    text_list = ["Dirt", "Grass", "Water", "Planks", "Trunk", "Leaves", "Air", "Stone", "Flowers"]
-    yellow_texts = ["Arcade!", "Simple, isn't it?", "Minecraft but not Minecraft", "Anyone plays this?", "Completely free", "Das ist nicht in Deutsch", "Who reads this?", "2D", "The player is YOU", "New gameplay", "Build, jumped, swum", "1.1!", "U hear me?", "This sounds good", "Flowers!", "Not a bad redesign"]
+function backToMenu () {
+    text_list = [
+    "Dirt",
+    "Grass",
+    "Water",
+    "Planks",
+    "Trunk",
+    "Leaves",
+    "Air",
+    "Stone",
+    "Flowers"
+    ]
+    yellow_texts = [
+    "Arcade!",
+    "Simple, isn't it?",
+    "Minecraft but not Minecraft",
+    "Anyone plays this?",
+    "Completely free",
+    "Das ist nicht in Deutsch",
+    "Who reads this?",
+    "2D",
+    "The player is YOU",
+    "New gameplay",
+    "Build, jumped, swum",
+    "1.1!",
+    "U hear me?",
+    "This sounds good",
+    "Flowers!",
+    "Not a bad redesign"
+    ]
     locateY = 0
     locateX = 0
     In_game = 0
     list22 = []
     music.play(music.createSong(hex`
-            00780004080200
-            `), music.PlaybackMode.InBackground)
+                    00780004080200
+                    `), music.PlaybackMode.InBackground)
     textSprite = textsprite.create(yellow_texts[randint(0, yellow_texts.length - 1)], 0, 5)
     textSprite.setPosition(80, 100)
     textSprite.left = 0
@@ -325,14 +271,12 @@ function backToMenu() {
     } else {
         music.play(music.createSoundEffect(WaveShape.Sawtooth, 1, 5000, 0, 255, 500, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
     }
-    
     story.showPlayerChoices("Day", "Night")
     if (story.checkLastAnswer("Day")) {
         scene.setBackgroundColor(9)
     } else {
         scene.setBackgroundColor(8)
     }
-    
     sprites.destroy(textSprite)
     setup()
     controller.combos.setTriggerType(TriggerType.Continuous)
@@ -460,67 +404,44 @@ function backToMenu() {
         ................................................................................................................................................................
         `)
 }
-
-controller.combos.attachCombo("U D L R", function on_combos_attach_combo() {
-    
+controller.combos.attachCombo("U D L R", function () {
+    locate_tiles()
 })
-function load_world() {
-    
-    tiles.setCurrentTilemap(tilemap`
-        level3
-        `)
+function load_world () {
+    tiles.setCurrentTilemap(tilemap`level3`)
     load_item = 0
     list2 = blockSettings.readNumberArray("world")
-    for (let index2 = 0; index2 < 50 * 30; index2++) {
+    for (let index = 0; index < 50 * 30; index++) {
         if (list2[load_item] == 0) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    0
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`0`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 1) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    1
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`1`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 2) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    2
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`2`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else if (list2[load_item] == 3) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    3
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`3`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else if (list2[load_item] == 4) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    4
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`4`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 5) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    5
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`5`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else if (list2[load_item] == 6) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    transparency16
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`transparency16`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else if (list2[load_item] == 7) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    7
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`7`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), true)
         } else if (list2[load_item] == 8) {
-            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`
-                    8
-                    `)
+            tiles.setTileAt(tiles.getTileLocation(locateX, locateY), assets.tile`8`)
             tiles.setWallAt(tiles.getTileLocation(locateX, locateY), false)
         } else {
-            
+        	
         }
-        
         load_item += 1
         if (locateX == 49) {
             locateX = 0
@@ -528,22 +449,20 @@ function load_world() {
         } else {
             locateX += 1
         }
-        
     }
 }
-
-let cursor : Sprite = null
+let cursor: Sprite = null
 let canHoverBlocks = 0
-let list2 : number[] = []
+let list2: number[] = []
 let load_item = 0
-let textSprite : TextSprite = null
-let yellow_texts : string[] = []
-let text_list : string[] = []
+let textSprite: TextSprite = null
+let yellow_texts: string[] = []
+let text_list: string[] = []
 let item = 0
-let list22 : number[] = []
+let list22: number[] = []
 let locateY = 0
 let locateX = 0
-let my_sprite : Sprite = null
+let my_sprite: Sprite = null
 let In_game = 0
 controller.configureRepeatEventDefaults(100, 500)
 controller.startLightAnimation(light.runningLightsAnimation, 500)
@@ -671,17 +590,17 @@ scene.setBackgroundImage(img`
     `)
 pause(1000)
 game.setDialogCursor(img`
-    . . c c c c c c c . .
-    . c f f f f f f f c .
-    c f f f 2 2 2 f f f c
-    c f f 2 2 f 2 2 f f c
-    c f f 2 2 f 2 2 f f c
-    c f f 2 2 2 2 2 f f c
-    c f f 2 2 f 2 2 f f c
-    c f f f f f f f f f c
-    c f f f f f f f f f c
-    . c f f f f f f f c .
-    . . c c c c c c c . .
+    . . c c c c c c c . . 
+    . c f f f f f f f c . 
+    c f f f 2 2 2 f f f c 
+    c f f 2 2 f 2 2 f f c 
+    c f f 2 2 f 2 2 f f c 
+    c f f 2 2 2 2 2 f f c 
+    c f f 2 2 f 2 2 f f c 
+    c f f f f f f f f f c 
+    c f f f f f f f f f c 
+    . c f f f f f f f c . 
+    . . c c c c c c c . . 
     `)
 game.setDialogFrame(img`
     ..11111111111111111111..
@@ -712,97 +631,73 @@ game.setDialogFrame(img`
 effects.clouds.startScreenEffect()
 backToMenu()
 music.play(music.createSong(hex`
-        003c000408020301001c000f05001202c102c20100040500280000006400280003140006020004180000000400012908000c0001270c001000012214001800012505001c000f0a006400f4010a0000040000000000000000000000000000000002180020002400012928002c0001272c003000012234003800012007001c00020a006400f401640000040000000000000000000000000000000003300000000800010608001000010810001800010d18002000010a20002800010628003000010a300038000108380040000106
-        `), music.PlaybackMode.LoopingInBackground)
-forever(function on_forever() {
-    
+            003c000408020301001c000f05001202c102c20100040500280000006400280003140006020004180000000400012908000c0001270c001000012214001800012505001c000f0a006400f4010a0000040000000000000000000000000000000002180020002400012928002c0001272c003000012234003800012007001c00020a006400f401640000040000000000000000000000000000000003300000000800010608001000010810001800010d18002000010a20002800010628003000010a300038000108380040000106
+            `), music.PlaybackMode.LoopingInBackground)
+forever(function () {
     if (controller.B.isPressed()) {
         music.play(music.melodyPlayable(music.jumpDown), music.PlaybackMode.InBackground)
         canHoverBlocks = 1
         my_sprite.ay = 0
         my_sprite.vy = 0
         cursor = sprites.create(img`
-                . . . . . . f f f f . . . . . .
-                . . . . . f f 1 1 f f . . . . .
-                . . . . f 1 f 1 1 f 1 f . . . .
-                . . . f 1 . f 1 1 f . 1 f . . .
-                . . f 1 . . f 1 1 f . . 1 f . .
-                . f 1 . . . f 1 1 f . . . 1 f .
-                f f f f f f f 1 1 f f f f f f f
-                f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f
-                f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f
-                f f f f f f f 1 1 f f f f f f f
-                . f 1 . . . f 1 1 f . . . 1 f .
-                . . f 1 . . f 1 1 f . . 1 f . .
-                . . . f 1 . f 1 1 f . 1 f . . .
-                . . . . f 1 f 1 1 f 1 f . . . .
-                . . . . . f f 1 1 f f . . . . .
-                . . . . . . f f f f . . . . . .
-                `, SpriteKind.Player)
+            . . . . . . f f f f . . . . . . 
+            . . . . . f f 1 1 f f . . . . . 
+            . . . . f 1 f 1 1 f 1 f . . . . 
+            . . . f 1 . f 1 1 f . 1 f . . . 
+            . . f 1 . . f 1 1 f . . 1 f . . 
+            . f 1 . . . f 1 1 f . . . 1 f . 
+            f f f f f f f 1 1 f f f f f f f 
+            f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f 
+            f 1 1 1 1 1 1 1 1 1 1 1 1 1 1 f 
+            f f f f f f f 1 1 f f f f f f f 
+            . f 1 . . . f 1 1 f . . . 1 f . 
+            . . f 1 . . f 1 1 f . . 1 f . . 
+            . . . f 1 . f 1 1 f . 1 f . . . 
+            . . . . f 1 f 1 1 f 1 f . . . . 
+            . . . . . f f 1 1 f f . . . . . 
+            . . . . . . f f f f . . . . . . 
+            `, SpriteKind.Player)
         cursor.setPosition(my_sprite.x, my_sprite.y)
         cursor.setFlag(SpriteFlag.GhostThroughWalls, true)
         controller.moveSprite(cursor, 100, 100)
         controller.moveSprite(my_sprite, 0, 0)
-        pauseUntil(function on_pause_until(): boolean {
-            return !controller.B.isPressed()
-        })
+        pauseUntil(() => !(controller.B.isPressed()))
         if (In_game == 1) {
             if (item == 0) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                    0
-                    `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`0`)
                 tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 1) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                    1
-                    `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`1`)
                 tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 2) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                    2
-                    `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`2`)
                 tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 3) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                    3
-                    `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`3`)
                 tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 4) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                    4
-                    `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`4`)
                 tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 5) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                    5
-                    `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`5`)
                 tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 6) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                        transparency16
-                        `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`transparency16`)
                 tiles.setWallAt(cursor.tilemapLocation(), false)
             } else if (item == 7) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                    7
-                    `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`7`)
                 tiles.setWallAt(cursor.tilemapLocation(), true)
             } else if (item == 8) {
-                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`
-                    8
-                    `)
+                tiles.setTileAt(cursor.tilemapLocation(), assets.tile`8`)
                 tiles.setWallAt(cursor.tilemapLocation(), false)
             } else {
-                
+            	
             }
-            
         }
-        
         sprites.destroy(cursor, effects.ashes, 1)
         canHoverBlocks = 0
         controller.moveSprite(my_sprite, 100, 0)
         my_sprite.ay = 400
     }
-    
     my_sprite.setFlag(SpriteFlag.GhostThroughWalls, false)
 })

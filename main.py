@@ -2,51 +2,10 @@
 class SpriteKind:
     MiniMenu = SpriteKind.create()
 
-def on_system_menu_add_entry():
-    return "Save and Quit"
-def on_system_menu_add_entry2():
-    locate_tiles()
-scene.systemMenu.add_entry(on_system_menu_add_entry,
-    on_system_menu_add_entry2,
-    img("""
-        ................................
-        ..............888...............
-        ..............888...............
-        ..............888...............
-        ..........bbbb888bbbb...........
-        .........bbbbb888bbbbb..........
-        .......bbbbbbb888bbbbbbb........
-        ......bfffffff888fbbbbbbb.......
-        .....bffffffff888ffbbbbbbb......
-        .....bff188811888ff888bbbb......
-        ....bbff188881888f8888bbbbb.....
-        ...bbbff18888888888888bbbbbb....
-        ...bbbff1188888888888ffbbbbb....
-        ...bbbff111888888888ffffbbbb....
-        ...bbbffffff8888888ffffffbbb....
-        ...bbbfffffff88888ffffffffbb....
-        ...bbbffffff1188811fffffffbb....
-        ...bbbffffff1111111fffffffbb....
-        ...bbbffffff1111111fffffffbb....
-        ...bbbffffff1111111fffffffbb....
-        ...bbbffffff1111111fffffffbb....
-        ...bbbfffffff11111ffffffffbb....
-        ....bbffffffffffffffffffffb.....
-        .....bbbbbbbbbbbbbbbbbbbbb......
-        .....bbbccccccccccccccbbbb......
-        ......bbccccccccccccccbbb.......
-        .......bbccccccccccccbbb........
-        .........bbbbbbbbbbbbb..........
-        ..........bbbbbbbbbbb...........
-        ................................
-        ................................
-        ................................
-        """))
-
 def on_up_pressed():
-    if In_game == 1 and not controller.B.is_pressed():
+    if In_game == 1 and not (controller.B.is_pressed()):
         if my_sprite.is_hitting_tile(CollisionDirection.BOTTOM) or tiles.tile_at_location_equals(my_sprite.tilemap_location(), assets.tile("""
-            2
+            1
             """)):
             music.play(music.create_sound_effect(WaveShape.SINE,
                     400,
@@ -58,15 +17,15 @@ def on_up_pressed():
                     InterpolationCurve.LINEAR),
                 music.PlaybackMode.IN_BACKGROUND)
             my_sprite.vy = -175
-            if tiles.tile_at_location_equals(my_sprite.tilemap_location(), assets.tile("""
-                2
-                """)):
+            if tiles.tile_at_location_equals(my_sprite.tilemap_location(),
+                assets.tile("""
+                    myTile
+                    """)):
                 my_sprite.start_effect(effects.bubbles, 1000)
 controller.up.on_event(ControllerButtonEvent.PRESSED, on_up_pressed)
 
 def locate_tiles():
     global locateX, locateY
-    scene.systemMenu.close_menu()
     scene.center_camera_at(0, 0)
     locateX = 0
     locateY = 0
@@ -84,22 +43,22 @@ def locate_tiles():
             list22.append(1)
         elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
             assets.tile("""
-                2
+                myTile
                 """)):
             list22.append(2)
         elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
             assets.tile("""
-                3
+                myTile0
                 """)):
             list22.append(3)
         elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
             assets.tile("""
-                4
+                myTile1
                 """)):
             list22.append(4)
         elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
             assets.tile("""
-                5
+                myTile2
                 """)):
             list22.append(5)
         elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
@@ -109,12 +68,12 @@ def locate_tiles():
             list22.append(6)
         elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
             assets.tile("""
-                7
+                myTile3
                 """)):
             list22.append(7)
         elif tiles.tile_at_location_equals(tiles.get_tile_location(locateX, locateY),
             assets.tile("""
-                8
+                myTile4
                 """)):
             list22.append(8)
         else:
@@ -206,8 +165,7 @@ def backToMenu():
         "1.1!",
         "U hear me?",
         "This sounds good",
-        "Flowers!",
-        "Not a bad redesign"]
+        "Flowers!"]
     locateY = 0
     locateX = 0
     In_game = 0
@@ -500,7 +458,7 @@ def backToMenu():
         """))
 
 def on_combos_attach_combo():
-    pass
+    locate_tiles()
 controller.combos.attach_combo("U D L R", on_combos_attach_combo)
 
 def load_world():
@@ -526,25 +484,25 @@ def load_world():
         elif list2[load_item] == 2:
             tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
                 assets.tile("""
-                    2
+                    myTile
                     """))
             tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
         elif list2[load_item] == 3:
             tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
                 assets.tile("""
-                    3
+                    myTile0
                     """))
             tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
         elif list2[load_item] == 4:
             tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
                 assets.tile("""
-                    4
+                    myTile1
                     """))
             tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), True)
         elif list2[load_item] == 5:
             tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
                 assets.tile("""
-                    5
+                    myTile2
                     """))
             tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
         elif list2[load_item] == 6:
@@ -556,13 +514,13 @@ def load_world():
         elif list2[load_item] == 7:
             tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
                 assets.tile("""
-                    7
+                    myTile3
                     """))
             tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), True)
         elif list2[load_item] == 8:
             tiles.set_tile_at(tiles.get_tile_location(locateX, locateY),
                 assets.tile("""
-                    8
+                    myTile4
                     """))
             tiles.set_wall_at(tiles.get_tile_location(locateX, locateY), False)
         else:
@@ -790,6 +748,7 @@ def on_forever():
         controller.move_sprite(my_sprite, 0, 0)
         
         def on_pause_until():
+            pass
             return not controller.B.is_pressed()
         pause_until(on_pause_until)
         
@@ -805,24 +764,28 @@ def on_forever():
                     """))
                 tiles.set_wall_at(cursor.tilemap_location(), True)
             elif item == 2:
-                tiles.set_tile_at(cursor.tilemap_location(), assets.tile("""
-                    2
-                    """))
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile
+                        """))
                 tiles.set_wall_at(cursor.tilemap_location(), False)
             elif item == 3:
-                tiles.set_tile_at(cursor.tilemap_location(), assets.tile("""
-                    3
-                    """))
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile0
+                        """))
                 tiles.set_wall_at(cursor.tilemap_location(), False)
             elif item == 4:
-                tiles.set_tile_at(cursor.tilemap_location(), assets.tile("""
-                    4
-                    """))
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile1
+                        """))
                 tiles.set_wall_at(cursor.tilemap_location(), True)
             elif item == 5:
-                tiles.set_tile_at(cursor.tilemap_location(), assets.tile("""
-                    5
-                    """))
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile2
+                        """))
                 tiles.set_wall_at(cursor.tilemap_location(), False)
             elif item == 6:
                 tiles.set_tile_at(cursor.tilemap_location(),
@@ -831,14 +794,16 @@ def on_forever():
                         """))
                 tiles.set_wall_at(cursor.tilemap_location(), False)
             elif item == 7:
-                tiles.set_tile_at(cursor.tilemap_location(), assets.tile("""
-                    7
-                    """))
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile3
+                        """))
                 tiles.set_wall_at(cursor.tilemap_location(), True)
             elif item == 8:
-                tiles.set_tile_at(cursor.tilemap_location(), assets.tile("""
-                    8
-                    """))
+                tiles.set_tile_at(cursor.tilemap_location(),
+                    assets.tile("""
+                        myTile4
+                        """))
                 tiles.set_wall_at(cursor.tilemap_location(), False)
             else:
                 pass
