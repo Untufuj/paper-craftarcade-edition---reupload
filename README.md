@@ -1,3 +1,4 @@
+# Discontinued, the game is now in https://untufuj.github.io/Paper_Craft/
 > Please note that the instructions here may update before the ones in the game
 ## How to play
 When in game, press B to place a tile and A to change tiles. Move the cursor with the arrows and press up+right then down+left to save
